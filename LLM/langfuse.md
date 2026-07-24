@@ -1,0 +1,1 @@
+https://langfuse.com/self-hosting/upgrade/upgrade-guides/upgrade-v2-to-v3#docker-compose
