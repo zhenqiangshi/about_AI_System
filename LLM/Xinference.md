@@ -8,4 +8,10 @@ pip install "xinference[all]"
 
 注意事项：
 1、Xinference 会为每个模型建立独立的环境，这个环境与当前部署的环境（Xinfrence启动）的环境不一致。当然也可以让它使用部署环境。
-![[Pasted image 20260709170127.png]]2、注意模型虚拟空间的cuda版本-torch-vllm的版本
+
+![[Pasted image 20260709170127.png]]
+
+2、注意模型虚拟空间的cuda版本-torch-vllm的版本
+
+
+3、注意副本，当前的副本为1，意思是启动一个服务实例。

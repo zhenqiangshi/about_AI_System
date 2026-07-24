@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "OCR/OCR.md",
+                "file": "git.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "OCR"
+              "title": "git"
             }
           }
         ]
@@ -164,9 +164,19 @@
               "icon": "lucide-list",
               "title": "OCR 的大纲"
             }
+          },
+          {
+            "id": "223a0d4c454cc877",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -186,24 +196,28 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "bd98834498b1d43f",
+  "active": "f2e965e7485cb4ea",
   "lastOpenFiles": [
-    "git.md",
+    "LLM/Nvida driver.md",
+    "2026-07-24.md",
+    "未命名 1.canvas",
+    "LLM/langfuse.md",
+    "Agent/Harness.md",
+    "Data/Tips.md",
+    "LLM/llama factory.md",
+    "LLM/Xinference.md",
+    "Memo/AISystem.md",
+    "LLM/NVCC.md",
+    "LLM/LLM.md",
+    "Nginx 映射与代理区别.md",
     "README.md",
+    "OCR/OCR.md",
+    "OCR/Docling & opendataloader-pdf.md",
+    "git.md",
     "OCR/Marker.md",
     "Agent/你不知道的 Agent：原理、架构与工程实践.md",
-    "Data/Tips.md",
-    "Nginx 映射与代理区别.md",
-    "LLM/NVCC.md",
-    "Agent/Harness.md",
     "Agent/Loop Engineering.md",
-    "LLM/llama factory.md",
     "Agent/claude.md.md",
-    "LLM/langfuse.md",
-    "LLM/LLM.md",
-    "LLM/未命名.md",
-    "Memo/AISystem.md",
-    "LLM/Xinference.md",
     "LLM/vLLM.md",
     "Data",
     "Memo",
@@ -216,22 +230,18 @@
     "Images/Pasted image 20260527091622.png",
     "Images",
     "Images/Pasted image 20260702104840.png",
-    "OCR/OCR.md",
     "RAG/检索器评估指标.md",
     "RAG/Embeding Model.md",
     "Images/Pasted image 20260626113510.png",
     "Images/Pasted image 20260604100955.png",
     "Images/Pasted image 20260623104051.png",
     "RAG/RAGFlow细节.md",
-    "RAG/RAG落地经验.md",
-    "OCR/MarkItDown.md",
     "未命名.base",
     "Agent",
     "OCR",
     "RAG",
     "未命名 1",
     "未命名 1.base",
-    "未命名 2.canvas",
-    "未命名 1.canvas"
+    "未命名 2.canvas"
   ]
 }
