@@ -1,9 +1,7 @@
 
-
-# Paged Attention
-!!! warning
-    本文为基于 [vLLM 原始论文](https://arxiv.org/abs/2309.06180) 的历史文档，
-    已不再描述当前 vLLM 中使用的代码。
+**!!! warning**
+    **本文为基于 [vLLM 原始论文](https://arxiv.org/abs/2309.06180) 的历史文档，**
+    **已不再描述当前 vLLM 中使用的代码。**
 
 目前，vLLM 使用自研的多头查询注意力内核（`csrc/attention/attention_kernels.cu`）。
 该内核设计为兼容 vLLM 的分页 KV 缓存，其中 key 与 value 缓存分别存储在独立的块中
@@ -89,13 +87,11 @@ __device__ void paged_attention_kernel(
 const scalar_t* q_ptr = q + seq_idx * q_stride + head_idx * HEAD_SIZE;
 ```
 
-![query](../assets/design/paged_attention/query.png)
+![[Pasted image 20260821110423.png]]
 
 每个线程定义自己的 `q_ptr`，指向全局内存中分配给它的 query token 数据。例如，若 `VEC_SIZE` 为 4 且
 `HEAD_SIZE` 为 128，则 `q_ptr` 指向包含共 128 个元素的数据，这些元素被划分为 128 / 4 = 32 个向量。
-
-![q_vecs](../assets/design/paged_attention/q_vecs.png)
-
+![[Pasted image 20260821110648.png]]
 ```cpp
 __shared__ Q_vec q_vecs[THREAD_GROUP_SIZE][NUM_VECS_PER_THREAD];
 ```
@@ -118,15 +114,13 @@ const scalar_t* k_ptr = k_cache + physical_block_number * kv_block_stride
 
 与 `q_ptr` 不同，每个线程中的 `k_ptr` 会在不同迭代中指向不同的 key token。如上所示，`k_ptr`
 根据分配的块、头和 token，指向 `k_cache` 中的 key token 数据。
-
-![key](../assets/design/paged_attention/key.png)
-
+![[Pasted image 20260821110726.png]]
 上图展示了 key 数据的内存布局。假设 `BLOCK_SIZE` 为 16，`HEAD_SIZE` 为 128，`x` 为 8，
 `THREAD_GROUP_SIZE` 为 2，共有 4 个 warp。每个矩形代表一个头上一个 key token 的全部元素，
 由一个线程组处理。左半部分显示 warp 0 的共 16 个 key token 数据块，右半部分表示其他 warp 或迭代的剩余 key token 数据。
 每个矩形内部共有 32 个向量（一个 token 的 128 个元素），由 2 个线程（一个线程组）分别处理。
 
-![k_vecs](../assets/design/paged_attention/k_vecs.png)
+![[Pasted image 20260821110748.png]]
 
 ```cpp
 K_vec k_vecs[NUM_VECS_PER_THREAD]
@@ -244,12 +238,9 @@ for (int i = thread_idx; i < num_tokens; i += NUM_THREADS) {
 
 ## Value
 
-![value](../assets/design/paged_attention/value.png)
-
-![logits_vec](../assets/design/paged_attention/logits_vec.png)
-
-![v_vec](../assets/design/paged_attention/v_vec.png)
-
+![[Pasted image 20260821111846.png]]
+![[Pasted image 20260821111855.png]]
+![[Pasted image 20260821111912.png]]
 现在需要获取 value 数据，并与 `logits` 执行点乘。与 query 和 key 不同，value 数据没有线程组概念。
 如图所示，与 key token 的内存布局不同，同一列的元素对应同一个 value token。对于一个 value 数据块，
 有 `HEAD_SIZE` 行和 `BLOCK_SIZE` 列，被分割为多个 `v_vec`。
@@ -300,8 +291,8 @@ for (int i = 0; i < NUM_ROWS_PER_THREAD; i++) {
 请注意，每个线程中的 `accs` 仅存储整个头中部分元素对所有上下文 token 的累加结果。
 但总体而言，输出的所有结果都已计算完成，只是存储在不同线程的寄存器内存中。
 
-??? code
-    ```cpp
+
+    
     float* out_smem = reinterpret_cast<float*>(shared_mem);
     for (int i = NUM_WARPS; i > 1; i /= 2) {
         // 上层 warp 写入共享内存
@@ -319,7 +310,7 @@ for (int i = 0; i < NUM_ROWS_PER_THREAD; i++) {
         }
         // 写出 accs
     }
-    ```
+   
 
 ## 输出
 
@@ -344,14 +335,3 @@ for (int i = 0; i < NUM_ROWS_PER_THREAD; i++) {
 
 最后，需要迭代不同的分配头位置，并根据 `out_ptr` 写出对应的累加结果。
 
-## 引用
-
-```bibtex
-@inproceedings{kwon2023efficient,
-  title={Efficient Memory Management for Large Language Model Serving with PagedAttention},
-  author={Woosuk Kwon and Zhuohan Li and Siyuan Zhuang and Ying Sheng and Lianmin Zheng and Cody Hao Yu and Joseph E. Gonzalez and Hao Zhang and Ion Stoica},
-  booktitle={Proceedings of the ACM SIGOPS 29th Symposium on Operating Systems Principles},
-  year={2023}
-}
-```
-```
