@@ -1,12 +1,15 @@
 
 
-`mkdir -p ./bench_qwen36
+`
+mkdir -p ./bench_qwen36
 
 for conc in 1 2 4 8 16 24 32 40 50; do
-  echo "========================================"
-  echo "正在测试 max-concurrency = $conc"
-  echo "========================================"
+    echo "========================================"
+    echo "正在测试 max-concurrency = $conc"
+    echo "========================================"
+`
 
+`
   vllm bench serve \
     --backend openai-chat \
     --host 127.0.0.1 \
