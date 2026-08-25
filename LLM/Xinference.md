@@ -15,3 +15,25 @@ pip install "xinference[all]"
 
 
 3、注意副本，当前的副本为1，意思是启动一个服务实例。
+
+
+## 技术细节
+
+```*
+1448168 (xinference-local 主进程)
+   ├── 1448530 (resource_tracker)
+   └── 1448531 (spawn 子进程)
+```
+
+
+spawn的子进程进行了主环境变量的切割和修剪，同时后端采用xocar架构，非常适合异构。
+
+> Xoscar 是一个专为**异构计算**（CPU、GPU等）设计的 Python Actor 框架。它的技术优势主要体现在：为构建高性能、高可用的分布式AI系统（如Xinference）提供了一个坚实、灵活且高效的“地基”。
+
+### 集成关系：Xinference 如何用 xoscar “包装” vLLM
+
+Xinference 为了在自身框架内更好地管理和调度 vLLM，会使用 xoscar 对 vLLM 进行“包装”。具体体现在：
+
+- **替换执行器**：在多 GPU 场景下，Xinference 会**替换 vLLM 默认的执行器（Executor）**，改用自己基于 xoscar 实现的 `XinferenceDistributedExecutorV1`。
+    
+- **注册 WorkerActor**：这个新执行器会通过 xoscar 为每一个 GPU 进程（rank）注册一个 `WorkerActor`，从而实现跨进程的分布式协调。这解释了为何你之前用 `pstree` 看到的进程树中，`VLLM::EngineCore` 是 `python (Xinference主进程)` 的子进程。
