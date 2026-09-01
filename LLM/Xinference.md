@@ -44,22 +44,46 @@ Xinference 为了在自身框架内更好地管理和调度 vLLM，会使用 xos
 
 https://github.com/xorbitsai/xllamacpp
 
-xinference launch -n Qwen3-Embedding-4B --model-engine llama.cpp --n_ctx 20480 --n_gpu_layers -1 --model-type embedding  --disable-virtual-env (跳過模型虛擬環境)--download_hub modelscope -f ggufv2
+
+## 安装命令
+
+
+```bash
+xinference launch \
+  -n Qwen3-Embedding-4B \
+  --model-engine llama.cpp \
+  --n_ctx 20480 \
+  --n_gpu_layers -1 \
+  --model-type embedding \
+  --disable-virtual-env \
+  --download_hub modelscope \
+  -f ggufv2
+```
+
+```
+--disable-virtual-env  (跳過模型虛擬環境)
+```
 
 ## 命令测试
 
-`root@dkh:~# xinference list
-UID          Type    Name     Format      Size (in billions)  Quantization
------------  ------  -------  --------  --------------------  --------------
-qwen3.6-35B  LLM     qwen3.6  pytorch                     35  none
-qwen3.8-27B  LLM     qwen3.8  fp8                         27  FP8
 
-UID                   Type       Name                    Dimensions
---------------------  ---------  --------------------  ------------
-Qwen3-Embedding-0.6B  embedding  Qwen3-Embedding-0.6B          1024
-Qwen3-Embedding-4B    embedding  Qwen3-Embedding-4B            2560
+Xinference list
+```
+UID             Type        Name                Format      Size (B)  Quantization
+--------------  ----------  ------------------  ----------  --------  ------------
+qwen3.6-35B     LLM         qwen3.6             pytorch     35        none
+qwen3.8-27B     LLM         qwen3.8             fp8         27        FP8
 
-UID                Type    Name
------------------  ------  -----------------
-Qwen3-Reranker-8B  rerank  Qwen3-Reranker-8B
+UID                       Type        Name                      Dimensions
+------------------------  ----------  ------------------------  ----------
+Qwen3-Embedding-0.6B      embedding   Qwen3-Embedding-0.6B      1024
+Qwen3-Embedding-4B        embedding   Qwen3-Embedding-4B        2560
+
+UID                 Type    Name
+------------------  ------  -----------------
+Qwen3-Reranker-8B   rerank  Qwen3-Reranker-8B
+```
+
+
+
 `

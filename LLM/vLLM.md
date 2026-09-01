@@ -1,7 +1,5 @@
-https://recipes.vllm.ai/Qwen/Qwen3.6-35B-A3B
-
-https://deepwiki.com/search/_83254ce1-71d4-4db6-8bd0-19fde0ca34b9
-
+1. https://recipes.vllm.ai/Qwen/Qwen3.6-35B-A3B
+2. https://deepwiki.com/search/_83254ce1-71d4-4db6-8bd0-19fde0ca34b9
 
 - PagedAttention 解决了内存碎片问题（KV Cache 可以动态分配/释放）。
 - Continuous Batching 解决了请求调度问题。
@@ -36,7 +34,7 @@ GPU 显存有限，但同一时刻可能有成百上千个请求在排队等待�
 
 #### 常用命令
 
-```
+```bash
 # 推荐写法
 uv pip install vllm --torch-backend=auto          # 自动检测驱动
 uv pip install vllm --torch-backend=cu130         # 明确指定
