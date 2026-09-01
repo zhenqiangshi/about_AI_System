@@ -4,7 +4,7 @@ Xinference 在 Linux, Windows, MacOS 上都可以通过 `pip` 来安装。如�
 
 pip install "xinference[all]"
 
-
+![[Pasted image 20260828195907.png]]
 
 注意事项：
 1、Xinference 会为每个模型建立独立的环境，这个环境与当前部署的环境（Xinfrence启动）的环境不一致。当然也可以让它使用部署环境。
@@ -15,7 +15,7 @@ pip install "xinference[all]"
 
 
 3、注意副本，当前的副本为1，意思是启动一个服务实例。
-
+![[Pasted image 20260828195718.png]]
 
 ## 技术细节
 
@@ -37,3 +37,29 @@ Xinference 为了在自身框架内更好地管理和调度 vLLM，会使用 xos
 - **替换执行器**：在多 GPU 场景下，Xinference 会**替换 vLLM 默认的执行器（Executor）**，改用自己基于 xoscar 实现的 `XinferenceDistributedExecutorV1`。
     
 - **注册 WorkerActor**：这个新执行器会通过 xoscar 为每一个 GPU 进程（rank）注册一个 `WorkerActor`，从而实现跨进程的分布式协调。这解释了为何你之前用 `pstree` 看到的进程树中，`VLLM::EngineCore` 是 `python (Xinference主进程)` 的子进程。
+
+![[Pasted image 20260828195430.png]]
+
+可跳过模型
+
+https://github.com/xorbitsai/xllamacpp
+
+xinference launch -n Qwen3-Embedding-4B --model-engine llama.cpp --n_ctx 20480 --n_gpu_layers -1 --model-type embedding  --disable-virtual-env (跳過模型虛擬環境)--download_hub modelscope -f ggufv2
+
+## 命令测试
+
+`root@dkh:~# xinference list
+UID          Type    Name     Format      Size (in billions)  Quantization
+-----------  ------  -------  --------  --------------------  --------------
+qwen3.6-35B  LLM     qwen3.6  pytorch                     35  none
+qwen3.8-27B  LLM     qwen3.8  fp8                         27  FP8
+
+UID                   Type       Name                    Dimensions
+--------------------  ---------  --------------------  ------------
+Qwen3-Embedding-0.6B  embedding  Qwen3-Embedding-0.6B          1024
+Qwen3-Embedding-4B    embedding  Qwen3-Embedding-4B            2560
+
+UID                Type    Name
+-----------------  ------  -----------------
+Qwen3-Reranker-8B  rerank  Qwen3-Reranker-8B
+`

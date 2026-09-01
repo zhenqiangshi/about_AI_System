@@ -90,8 +90,7 @@ const scalar_t* q_ptr = q + seq_idx * q_stride + head_idx * HEAD_SIZE;
 ![[Pasted image 20260821110423.png]]
 
 每个线程定义自己的 `q_ptr`，指向全局内存中分配给它的 query token 数据。例如，若 `VEC_SIZE` 为 4 且
-`HEAD_SIZE` 为 128，则 `q_ptr` 指向包含共 128 个元素的数据，这些元素被划分为 128 / 4 = 32 个向量。
-![[Pasted image 20260821110648.png]]
+`HEAD_SIZE` 为 128，则 `q_ptr` 指向包含共 128 个元素的数据，这些元素被划分为 128 / 4 = 32 个向量。![[Pasted image 20260821110648.png]]
 ```cpp
 __shared__ Q_vec q_vecs[THREAD_GROUP_SIZE][NUM_VECS_PER_THREAD];
 ```

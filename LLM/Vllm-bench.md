@@ -1,5 +1,5 @@
 
-
+# 命令
 `
 mkdir -p ./bench_qwen36
 
@@ -46,6 +46,7 @@ for in_len in 256 512 1024 2048 4096; do
     --random-output-len 128 \
     --num-warmups 5 \
     --save-result \
+    --request-rate 10 \
     --result-dir ./bench_qwen36_input \
     --result-filename "input_${in_len}.json"
 done
@@ -95,6 +96,7 @@ enable_prefix_caching
 enable_chunked_prefill
 
 
+# 理论实践
 
 对 vLLM / Xinference 推理服务进行参数优化，是一个在**吞吐量（Throughput）** 和**延迟（Latency）** 之间寻找平衡的迭代过程。没有一劳永逸的“最优配置”，最佳参数取决于你的**模型、硬件、输入数据特点以及业务场景**（是在线交互还是离线批处理）。
 
@@ -187,3 +189,124 @@ enable_chunked_prefill
 5.  密切关注 **`preempted`** 警告，它是系统资源不足的重要信号。
 
 每次调整后，记录下配置和对应的性能数据，形成你自己的调优“手册”。
+
+
+
+# vllm-prometheus_grafana
+
+**这些指标能检测什么，以及如何用它们深入理解和优化 vLLM**
+
+下面按「指标含义 → 能发现什么问题 → 如何用来优化」的结构，系统讲解你列出的核心指标。
+
+### 1. 核心指标解读与诊断能力
+
+| 指标 | 类型 | 核心含义 | 主要能检测的问题 |
+|------|------|----------|------------------|
+| `vllm:num_requests_running` | Gauge | 当前正在 GPU 上执行的请求数 | 并发负载、是否接近 `max-num-seqs` 上限 |
+| `vllm:kv_cache_usage_perc` | Gauge | KV Cache 使用比例（0~1） | 显存压力、即将 OOM / 抢占、上下文长度是否过大 |
+| `vllm:prefix_cache_queries` / `hits` | Counter | 前缀缓存查询次数与命中次数 | 缓存是否生效、重复 prompt 是否被有效复用 |
+| `vllm:prompt_tokens_total` | Counter | 累计处理的 prompt token 数 | Prefill 负载强度 |
+| `vllm:generation_tokens_total` | Counter | 累计生成的 token 数 | Decode 负载强度、吞吐能力 |
+| `vllm:request_success_total` | Counter | 完成的请求数（按 finish_reason 分类） | 成功率、截断率（length）、错误率 |
+| `vllm:request_prompt_tokens` | Histogram | 每个请求的 prompt 长度分布 | 长 prompt 占比、是否需要 chunked prefill |
+| `vllm:request_generation_tokens` | Histogram | 每个请求的生成长度分布 | 输出长度特征、是否经常被 max_tokens 截断 |
+| `vllm:time_to_first_token_seconds` | Histogram | 首 token 延迟（TTFT） | 用户感知延迟、排队 + Prefill 是否过慢 |
+| `vllm:inter_token_latency_seconds` | Histogram | 生成过程中每个 token 的间隔（TPOT/ITL） | Decode 速度、是否卡顿 |
+| `vllm:e2e_request_latency_seconds` | Histogram | 端到端总延迟 | 整体体验、超时风险 |
+| `vllm:request_prefill_time_seconds` | Histogram | Prefill 阶段耗时 | Prefill 是否成为瓶颈 |
+
+---
+
+### 2. 如何组合这些指标深入理解系统状态
+
+#### 场景一：判断当前是否过载
+- `num_requests_running` 接近或等于你设置的 `--max-num-seqs`
+- `num_requests_waiting`（如果有）持续升高
+- `kv_cache_usage_perc` > 0.85~0.90
+- TTFT P95/P99 明显上升
+
+→ **结论**：系统已接近饱和，继续增加流量会导致延迟爆炸或拒绝请求。
+
+#### 场景二：区分 Prefill 瓶颈还是 Decode 瓶颈
+- Prefill 慢：`request_prefill_time_seconds` 高 + TTFT 高，但 `inter_token_latency` 正常
+- Decode 慢：`inter_token_latency` 高，TTFT 相对正常
+- 两者都慢：整体资源不足或配置不当
+
+#### 场景三：评估 Prefix Caching 效果
+计算命中率：
+```promql
+rate(vllm:prefix_cache_hits[5m]) / rate(vllm:prefix_cache_queries[5m])
+```
+- 命中率高（>50%~70%）→ 重复前缀多，缓存价值大
+- 命中率极低 → 请求多样性高，或缓存未正确开启
+
+#### 场景四：分析流量特征
+- 看 `request_prompt_tokens` 和 `request_generation_tokens` 的直方图分布
+- 如果大量请求 prompt 很长（>4k/8k），优先开启/调优 `--enable-chunked-prefill`
+- 如果生成长度经常顶到上限，说明 `max_tokens` 设置不合理，或业务需要更长输出
+
+#### 场景五：计算真实吞吐
+```promql
+# 生成速度（tokens/s）
+rate(vllm:generation_tokens_total[1m])
+
+# Prefill 速度
+rate(vllm:prompt_tokens_total[1m])
+```
+结合 GPU 利用率，可判断是否已吃满硬件能力。
+
+---
+
+### 3. 基于这些指标的优化方向
+
+| 观察到的现象 | 优化手段 |
+|--------------|----------|
+| `kv_cache_usage_perc` 长期很高 | 降低 `--max-model-len`、减小 `--max-num-seqs`、使用量化模型、开启 CPU offload（谨慎） |
+| TTFT 高且 `num_requests_waiting` 高 | 增加实例、提高 `--max-num-seqs`（在显存允许范围内）、开启 chunked prefill |
+| Prefix Cache 命中率低 | 检查是否开启 `--enable-prefix-caching`；引导业务侧复用系统 prompt |
+| Prefill 时间占比过高 | 开启 `--enable-chunked-prefill`，调整 `--max-num-batched-tokens` |
+| `inter_token_latency` 偏高 | 检查是否开启 CUDA Graph、FlashAttention 是否生效；减少并发或优化模型 |
+| 大量请求 `finished_reason=length` | 提高客户端 `max_tokens`，或引导业务控制输出长度 |
+| 生成 token 吞吐远低于硬件理论值 | 检查 batch 是否过小、是否有大量短请求导致调度效率低 |
+
+### 4. 实用 PromQL 示例（可直接用于 Grafana）
+
+```promql
+# KV Cache 使用率
+vllm:kv_cache_usage_perc
+
+# 前缀缓存命中率
+rate(vllm:prefix_cache_hits[5m]) / rate(vllm:prefix_cache_queries[5m])
+
+# TTFT P95
+histogram_quantile(0.95, rate(vllm:time_to_first_token_seconds_bucket[5m]))
+
+# 平均 Inter-Token Latency
+rate(vllm:inter_token_latency_seconds_sum[5m]) / rate(vllm:inter_token_latency_seconds_count[5m])
+
+# 生成吞吐（tokens/s）
+rate(vllm:generation_tokens_total[1m])
+
+# 当前运行请求数
+vllm:num_requests_running
+```
+
+### 5. 推荐观察节奏
+
+1. **实时大盘**：`num_requests_running`、`kv_cache_usage_perc`、TTFT P95、生成吞吐
+2. **每小时/每天回顾**：Prefix Cache 命中率、prompt/generation 长度分布、错误/截断比例
+3. **优化前后对比**：调参前后重点对比 TTFT、TPOT、吞吐、KV Cache 使用率变化
+
+---
+
+**总结一句话**：
+
+这些指标让你从「黑盒」变成「白盒」。  
+`num_requests_running` + `kv_cache_usage_perc` 看负载与显存压力，  
+TTFT / Inter-Token Latency / Prefill Time 定位延迟瓶颈，  
+Prefix Cache 和 token 计数评估优化效果，  
+Histogram 类指标揭示真实流量特征。
+
+把它们组合起来看，才能真正理解 vLLM 的运行状态，并做出有依据的优化决策。
+
+需要我针对某个具体指标（比如如何系统优化 TTFT，或如何调 `max-num-seqs` 和 `gpu-memory-utilization`）给出更详细的调优步骤吗？

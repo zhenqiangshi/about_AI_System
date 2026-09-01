@@ -25,4 +25,25 @@ GPU 显存有限，但同一时刻可能有成百上千个请求在排队等待�
 理解这个循环的关键是：**调度器和执行器是解耦的**——调度器只管"分配显存块和决定批次构成"，执行器只管"跑模型"，采样逻辑则是把用户级参数和底层 logits 连接起来的桥梁。所有上层调用（离线库调用或在线 HTTP 请求）本质上都是在反复驱动这同一个循环。
 
 
+|镜像源|地址|推荐指数|备注|
+|---|---|---|---|
+|**清华**|[https://pypi.tuna.tsinghua.edu.cn/simple](https://pypi.tuna.tsinghua.edu.cn/simple)|★★★★★|最稳定常用|
+|阿里云|[https://mirrors.aliyun.com/pypi/simple/](https://mirrors.aliyun.com/pypi/simple/)|★★★★|速度也很快|
+|中科大|[https://pypi.mirrors.ustc.edu.cn/simple/](https://pypi.mirrors.ustc.edu.cn/simple/)|★★★★|教育网友好|
+|豆瓣|[https://pypi.douban.com/simple/](https://pypi.douban.com/simple/)|★★★|偶尔不稳定|
+|华为云|[https://mirrors.huaweicloud.com/repository/pypi/simple](https://mirrors.huaweicloud.com/repository/pypi/simple)|★★★★|企业常用|
+|腾讯云|[https://mirrors.cloud.tencent.com/pypi/simple](https://mirrors.cloud.tencent.com/pypi/simple)|★★★★|-|
 
+#### 常用命令
+
+```
+# 推荐写法
+uv pip install vllm --torch-backend=auto          # 自动检测驱动
+uv pip install vllm --torch-backend=cu130         # 明确指定
+uv pip install vllm --torch-backend=cu129         # 老驱动回退
+
+# 直接装特定变体
+uv pip install https://github.com/vllm-project/vllm/releases/download/v0.28.0/vllm-0.28.0+cu129-cp38-abi3-manylinux_2_35_x86_64.whl --torch-backend=cu129
+```
+
+> 一定注意cuda、驱动、python wheels等的 一些适配！
