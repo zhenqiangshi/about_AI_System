@@ -1,7 +1,7 @@
 
 git clone https://github.com/NVIDIA/nccl-tests.git
 
-```
+```shell
 root@dkh:~/nccl-tests# ./build/all_reduce_perf -b 8 -e 128M -f 2 -g 8
 # nccl-tests version 2.19.4 nccl-headers=21903 nccl-library=21903
 # Collective test starting: all_reduce_perf

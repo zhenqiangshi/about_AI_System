@@ -1,4 +1,4 @@
-```
+``` shell
  1742  apt install -y nvidia-driver-580-server nvidia-dkms-580-server nvidia-utils-580-server nvidia-kernel-common-580-server
  1743  apt install -y nvidia-driver-580-server nvidia-dkms-580-server nvidia-utils-580-server nvidia-kernel-common-580-server nvidia-kernel-source-580-server nvidia-firmware-580-server-580.159.03
  1744  apt install -y nvidia-driver-580-server nvidia-dkms-580-server nvidia-utils-580-server nvidia-kernel-common-580-server nvidia-kernel-source-580-server nvidia-firmware-580-server-580.159.03 nvidia-compute-utils-580-server

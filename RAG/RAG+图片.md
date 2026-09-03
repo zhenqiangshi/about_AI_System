@@ -14,23 +14,16 @@
 
   
 
-| 术语 | 说明 |
+| 术语                  | 说明                                                                        |
+| :------------------ | :------------------------------------------------------------------------ |
+| `imageId`           | RAGFlow 内部图片 ID（字符串），需通过后端代理获取图片二进制                                       |
+| `imageUrl`          | Markdown chunk content 中提取的图片 URL（以 `http` 开头的完整 URL），可直接作为 `<Image>` src |
+| `aiMatchedImageIds` | 数据库字段（`String[]`），**同时存储 imageId 和 imageUrl**，不区分类型                       |
+| `sources`           | 同步结果中每个检索来源的信息，包含各自的 imageId/imageUrls                                    |
 
-|------|------|
-
-| `imageId` | RAGFlow 内部图片 ID（字符串），需通过后端代理获取图片二进制 |
-
-| `imageUrl` | Markdown chunk content 中提取的图片 URL（以 `http` 开头的完整 URL），可直接作为 `<Image>` src |
-
-| `aiMatchedImageIds` | 数据库字段（`String[]`），**同时存储 imageId 和 imageUrl**，不区分类型 |
-
-| `sources` | 同步结果中每个检索来源的信息，包含各自的 imageId/imageUrls |
-
-  
 
 **URL/ID 判断规则**：`value.startsWith('http')` → URL，否则为 imageId。
 
-  
 
 ---
 
@@ -38,15 +31,9 @@
 
 ## 1. 后端提取（sync-standards.ts）
 
-  
-
 ### 1.1 数据来源
 
-  
-
 RAGFlow 检索返回的 `RetrievalChunk` 类型：
-
-  
 
 ```typescript
 

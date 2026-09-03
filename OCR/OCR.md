@@ -50,7 +50,9 @@ opendataloader-pdf \
 ### 处理文件夹示例
 
 ```bash
-opendataloader-pdf --hybrid docling-fast ./pdf_folder/ --output ./output
+opendataloader-pdf 
+--hybrid docling-fast ./pdf_folder/ 
+--output ./output
 ```
 
 **输出内容**：
@@ -75,8 +77,13 @@ https://ocrmypdf.readthedocs.io/en/latest/index.html
 
 Bash
 
-```
-ocrmypdf -l chi_sim --deskew --clean test.pdf ./test-6-2.pdf --output-type pdf
+```bash
+ocrmypdf 
+-l chi_sim 
+--deskew 
+--clean test.pdf 
+./test-6-2.pdf 
+--output-type pdf
 ```
 
 **参数解释：**
@@ -98,7 +105,7 @@ ocrmypdf -l chi_sim --deskew --clean test.pdf ./test-6-2.pdf --output-type pdf
 
 Bash
 
-```
+```bash
 ocrmypdf -l chi_sim+eng ../test.pdf ../output.pdf
 ```
 
@@ -110,7 +117,7 @@ ocrmypdf -l chi_sim+eng ../test.pdf ../output.pdf
 
 Bash
 
-```
+```bash
 ocrmypdf -l chi_sim+eng --rotate-pages ../test.pdf ../output.pdf
 ```
 
@@ -122,7 +129,7 @@ ocrmypdf -l chi_sim+eng --rotate-pages ../test.pdf ../output.pdf
 
 Bash
 
-```
+```bash
 ocrmypdf -l chi_sim+eng --deskew --clean ../test.pdf ../output.pdf
 ```
 
@@ -137,7 +144,7 @@ ocrmypdf -l chi_sim+eng --deskew --clean ../test.pdf ../output.pdf
 
 Bash
 
-```
+```bash
 ocrmypdf -l chi_sim+eng --redo-ocr ../test.pdf ../output.pdf
 ```
 
@@ -149,7 +156,7 @@ ocrmypdf -l chi_sim+eng --redo-ocr ../test.pdf ../output.pdf
 
 Bash
 
-```
+```bash
 ocrmypdf -l chi_sim+eng --rotate-pages --deskew --clean ../test.pdf ../searchable_ok.pdf
 ```
 
@@ -159,7 +166,7 @@ ocrmypdf -l chi_sim+eng --rotate-pages --deskew --clean ../test.pdf ../searchabl
 
 Bash
 
-```
+```bash
 sudo apt update
 # 安装 ocrmypdf 以及 Tesseract 的简体中文、繁体中文和英文包
 sudo apt install ocrmypdf tesseract-ocr-chi-sim tesseract-ocr-chi-tra tesseract-ocr-eng
@@ -171,7 +178,7 @@ sudo apt install ocrmypdf tesseract-ocr-chi-sim tesseract-ocr-chi-tra tesseract-
 
 ### 第一步：libredwg
 
-```
+```bash
 sudo apt update
 sudo apt install -y git build-essential autoconf libtool
 git clone https://git.savannah.gnu.org/git/libredwg.git
@@ -193,7 +200,7 @@ sudo make install
 
 Bash
 
-```
+```bash
 dwgread -O JSON -o house_plan.json input.dwg
 ```
 
@@ -203,7 +210,7 @@ dwgread -O JSON -o house_plan.json input.dwg
 
 Bash
 
-```
+```bash
 dwgread -v3 input.dwg
 ```
 
@@ -215,7 +222,7 @@ dwgread -v3 input.dwg
 
 Bash
 
-```
+```bash
 dwgread -O DXF -o output.dxf input.dwg
 ```
 ### 第二步：安装 Python 依赖

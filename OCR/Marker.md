@@ -16,7 +16,7 @@ Marker converts documents to markdown, JSON, chunks, and HTML quickly and accura
 - Works on GPU, CPU, or MPS
 
 
-```
+```shell
 (mkd) shizhenqiang@ubuntu-wsl:~/mkd/marker_test/test-6-2$ marker_single _page_9_Figure_7.jpeg --output_dir ./output_pic
 Recognizing Layout: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:02<00:00,  2.10s/it]
 Running OCR Error Detection: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1/1 [00:00<00:00,  4.68it/s]

@@ -39,7 +39,7 @@ https://ai.baidu.com/ai-doc/AISTUDIO/Kmfl2ycs0
 |**`object_detection`**|目标检测（如 PP-YOLOE / RT-DETR）|**安防与质检：** 安全帽佩戴检测、传送带异物检测、缺陷检测（如钢板裂纹定位）。|
 |**`instance_segmentation`**|实例分割（精确到像素轮廓边缘）|**医疗与自动驾驶：** 肿瘤边缘切片分割、路面行人和车辆的像素级轮廓抠图。|
 |**`ts_forecast` / `ts_anomaly_det`**|时序预测 / 时序异常检测|**物联网与运维：** 服务器 CPU 负载异常预警、工厂设备传感器设备寿命预测、股票/气象走势预测。|
-```
+```bash
 # 1. 退出当前虚拟环境
 deactivate
 
@@ -63,7 +63,7 @@ paddlex --serve --pipeline OCR --device cpu
 # 二、PaddleOCR
 
 PaddleOCR
-```
+```bash
 export PADDLE_PDX_ENABLE_MKLDNN_BYDEFAULT=0
 
 paddleocr doc_parser -i ./f77226f8a4bdf3c4daba55f4d80f8529.jpg --pipeline_version v1.6 --save_path ./output_weixin_docparser_f77

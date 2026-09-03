@@ -55,9 +55,9 @@ done
 ```
 
 
-**结果1**
+**上述命令部分结果**
 
-
+```JS
 ============ Serving Benchmark Result ============
 Successful requests:                     100       
 Failed requests:                         0         
@@ -85,14 +85,14 @@ Median ITL (ms):                         202.40
 P99 ITL (ms):                            229.48
 
 ==================================================
+```
 
 
+*可修改不同的vllm参数进行权衡prefill（算）与decode（存）。
 
-可修改不同的vllm参数进行权衡prefill（算）与decode（存）。
-
-max_model_len
-enable_prefix_caching
-enable_chunked_prefill
+- **max_model_len**: 控制模型输出的最大上下文长度或最大 token 数量，用于限制显存占用并统一处理变长输入
+- **enable_prefix_caching**: 启用键值缓存（KV Cache）的前缀缓存机制，自动识别并复用请求间的重复前缀内容，从而加速批量推理。
+- **enable_chunked_prefill**: 启用分块预填充技术，将初始提示词（Prompt）的预填充过程拆分为多次小操作，以便在排队时或处理长文本时 interleaved（交错）执行推理，降低尾延迟。
 
 
 # bench命令
@@ -258,15 +258,15 @@ rate(vllm:prompt_tokens_total[1m])
 
 ### 3. 基于这些指标的优化方向
 
-| 观察到的现象 | 优化手段 |
-|--------------|----------|
-| `kv_cache_usage_perc` 长期很高 | 降低 `--max-model-len`、减小 `--max-num-seqs`、使用量化模型、开启 CPU offload（谨慎） |
-| TTFT 高且 `num_requests_waiting` 高 | 增加实例、提高 `--max-num-seqs`（在显存允许范围内）、开启 chunked prefill |
-| Prefix Cache 命中率低 | 检查是否开启 `--enable-prefix-caching`；引导业务侧复用系统 prompt |
-| Prefill 时间占比过高 | 开启 `--enable-chunked-prefill`，调整 `--max-num-batched-tokens` |
-| `inter_token_latency` 偏高 | 检查是否开启 CUDA Graph、FlashAttention 是否生效；减少并发或优化模型 |
-| 大量请求 `finished_reason=length` | 提高客户端 `max_tokens`，或引导业务控制输出长度 |
-| 生成 token 吞吐远低于硬件理论值 | 检查 batch 是否过小、是否有大量短请求导致调度效率低 |
+| 观察到的现象                           | 优化手段                                                               |
+| -------------------------------- | ------------------------------------------------------------------ |
+| `kv_cache_usage_perc` 长期很高       | 降低 `--max-model-len`、减小 `--max-num-seqs`、使用量化模型、开启 CPU offload（谨慎） |
+| TTFT 高且 `num_requests_waiting` 高 | 增加实例、提高 `--max-num-seqs`（在显存允许范围内）、开启 chunked prefill              |
+| Prefix Cache 命中率低                | 检查是否开启 `--enable-prefix-caching`；引导业务侧复用系统 prompt                  |
+| Prefill 时间占比过高                   | 开启 `--enable-chunked-prefill`，调整 `--max-num-batched-tokens`        |
+| `inter_token_latency` 偏高         | 检查是否开启 CUDA Graph、FlashAttention 是否生效；减少并发或优化模型                    |
+| 大量请求 `finished_reason=length`    | 提高客户端 `max_tokens`，或引导业务控制输出长度                                     |
+| 生成 token 吞吐远低于硬件理论值              | 检查 batch 是否过小、是否有大量短请求导致调度效率低                                      |
 
 ### 4. 实用 PromQL 示例（可直接用于 Grafana）
 

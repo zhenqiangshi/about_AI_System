@@ -1,7 +1,7 @@
 
-infrastructure
-data and eva
-taste and trade off
+- infrastructure
+- data and eva
+- taste and trade off
 
 
 
