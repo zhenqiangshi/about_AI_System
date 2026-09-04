@@ -1,5 +1,5 @@
-[[RAG+图片]]
-[[RAG+KG]]
+[RAG+图片](RAG+图片.md)
+[RAG+KG](RAG+KG.md)
 # 一、ES检索细节
 
 ## ES中的两阶段向量搜索差异

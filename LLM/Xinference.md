@@ -4,18 +4,18 @@ Xinference 在 Linux, Windows, MacOS 上都可以通过 `pip` 来安装。如�
 
 pip install "xinference[all]"
 
-![[../Images/Pasted image 20260828195907.png]]
+![Pasted image 20260828195907](../Images/Pasted%20image%2020260828195907.png)
 
 注意事项：
 1、Xinference 会为每个模型建立独立的环境，这个环境与当前部署的环境（Xinfrence启动）的环境不一致。当然也可以让它使用部署环境。
 
-![[../Images/Pasted image 20260709170127.png]]
+![Pasted image 20260709170127](../Images/Pasted%20image%2020260709170127.png)
 
 2、注意模型虚拟空间的cuda版本-torch-vllm的版本
 
 
 3、注意副本，当前的副本为1，意思是启动一个服务实例。
-![[../Images/Pasted image 20260828195718.png]]
+![Pasted image 20260828195718](../Images/Pasted%20image%2020260828195718.png)
 
 ## 技术细节
 
@@ -38,8 +38,8 @@ Xinference 为了在自身框架内更好地管理和调度 vLLM，会使用 xos
     
 - **注册 WorkerActor**：这个新执行器会通过 xoscar 为每一个 GPU 进程（rank）注册一个 `WorkerActor`，从而实现跨进程的分布式协调。这解释了为何你之前用 `pstree` 看到的进程树中，`VLLM::EngineCore` 是 `python (Xinference主进程)` 的子进程。
 
-![[../Images/Pasted image 20260828195430.png]]
-![[../Images/Pasted image 20260904134854.png]]
+![Pasted image 20260828195430](../Images/Pasted%20image%2020260828195430.png)
+![Pasted image 20260904134854](../Images/Pasted%20image%2020260904134854.png)
 
 
 

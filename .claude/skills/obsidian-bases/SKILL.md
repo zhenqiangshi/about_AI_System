@@ -99,7 +99,7 @@ task-tracker and daily-notes Bases.
 - View <code>order</code>, <code>groupBy</code>, and summaries reference defined
   note, file, or formula properties.
 - Formula quoting is balanced and duration math accesses a numeric field.
-- Embedded view names match exactly: <code>![[My Base.base#View Name]]</code>.
+- Embedded view names match exactly: <code>![](My%20Base.base#View%20Name)</code>.
 
 ## Attribution
 

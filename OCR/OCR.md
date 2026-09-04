@@ -1,5 +1,5 @@
-[[PaddleOCR]]
-[[Docling & opendataloader-pdf]]
+[PaddleOCR](PaddleOCR.md)
+[Docling & opendataloader-pdf](Docling%20&%20opendataloader-pdf.md)
 ## 一、Opendataloder-PDF
 
 **✅ OpenDataLoader PDF 使用 Hybrid 模式的完整命令**

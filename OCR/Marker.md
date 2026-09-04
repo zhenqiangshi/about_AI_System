@@ -2,7 +2,7 @@
 
 [GITHUB](https://github.com/datalab-to/marker#marker)
 **现有OCRmypdf进行一次扫描件转换+Marker进行二次OCR识别**
-[[OCR]]
+[OCR](OCR.md)
 
 Marker converts documents to markdown, JSON, chunks, and HTML quickly and accurately.
 

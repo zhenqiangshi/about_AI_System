@@ -64,7 +64,7 @@ sudo docker compose up -d
     - 例如，如果你想允许访问整个 `10.0.0.0/8` 内网段，可以在这里配置
 ```
 
-![[../Images/Pasted image 20260902190308.png]]
+![Pasted image 20260902190308](../Images/Pasted%20image%2020260902190308.png)
 
 
 

@@ -3,7 +3,7 @@
 RAGFlow 能够将非结构化文档转化为多种形式的结构化知识资产——以 Wiki 形式呈现阅读内容，通过图结构发现关系，利用树状结构和页面索引理解文档结构，用思维导图探索主题，通过时间线查看事件的发展过程，还可以利用其他技能来复用知识。（引用与ragflow的规划设计）
 
 
-![[../Images/Pasted image 20260702104840.png]]
+![Pasted image 20260702104840](../Images/Pasted%20image%2020260702104840.png)
 
 整个系统被逻辑切分为三个核心流水线：**离线数据打通**、**在线检索生成**，以及**持续测试与评估**。
 
@@ -19,7 +19,7 @@ RAGFlow 能够将非结构化文档转化为多种形式的结构化知识资产
         
     - **多模态提取：** 将表格强制转化为 Markdown/HTML；将图片通过 VLM（如 Qwen2.5-VL）生成 Caption。
         
-- **主流工具：** [[Marker]]、MinerU、Unstructured、[[OCR]][[Docling & opendataloader-pdf]][[PaddleOCR]] 、[[MarkItDown]]
+- **主流工具：** [Marker](Marker.md)、MinerU、Unstructured、[OCR](OCR.md)[Docling & opendataloader-pdf](Docling%20&%20opendataloader-pdf.md)[PaddleOCR](PaddleOCR.md) 、[MarkItDown](MarkItDown.md)
     
 
 **节点 2：语义感知切分 (Advanced Chunking)**
@@ -43,8 +43,8 @@ RAGFlow 能够将非结构化文档转化为多种形式的结构化知识资产
         
     - **多向量预计算 (Optional)：** 如果使用离线 ColBERT 方案，在此阶段直接生成 Token 级别的矩阵索引。
         
-- **主流工具：** Qdrant、Milvus 2.4+（原生支持 Dense + Sparse 混合存储）。[[RAGFlow细节]][[Embeding Model]]
-- **KG:** [[RAG+KG]]
+- **主流工具：** Qdrant、Milvus 2.4+（原生支持 Dense + Sparse 混合存储）。[RAGFlow细节](RAGFlow细节.md)[Embeding Model](Embeding%20Model.md)
+- **KG:** [RAG+KG](RAG+KG.md)
 
 | Method  方法/方式            | Strength  力量/实力                                      | Trade-off  权衡/取舍                                    | Best For  最适合……的情况/用途                                     |
 | ------------------------ | ---------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------- |
@@ -81,7 +81,7 @@ RAGFlow 能够将非结构化文档转化为多种形式的结构化知识资产
     - **倒数秩融合 (RRF)：** 将两路不同维度的得分通过算法合并排序。
         
     - **元数据硬过滤：** 在检索底层直接植入权限标签或时间戳过滤，防止数据越权越界。
-    - [[Embeding Model]]
+    - [Embeding Model](Embeding%20Model.md)
         
 
 **节点 6：重排 (Reranking)**
@@ -150,7 +150,7 @@ RAGFlow 能够将非结构化文档转化为多种形式的结构化知识资产
 
 ### 第三阶段：持续测试与监控流水线 (Evaluation & LLMOps)
 
-> **目标：** 量化系统表现，建立基准测试集，告别“凭感觉调参”。[[检索器评估指标]]
+> **目标：** 量化系统表现，建立基准测试集，告别“凭感觉调参”。[检索器评估指标](检索器评估指标.md)
 
 **节点 8：自动化测试与评估 (RAG Evaluation)**
 

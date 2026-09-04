@@ -598,6 +598,15 @@
         "displayName": "qwen3.6-35B"
       },
       "configuredAt": 1788257562666
+    },
+    {
+      "providerId": "7241eeb6-c7a4-408d-85b8-7a53f25f0707",
+      "info": {
+        "id": "opencode/muse-spark-1.3-contributor-free",
+        "displayName": "OpenCode Zen/Muse Spark 1.3 Free"
+      },
+      "configuredModelId": "1cf4355e-2955-4a4a-8f60-85c6bc22682c",
+      "configuredAt": 1788502200605
     }
   ],
   "backends": {

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "LLM/Paged-Attention.md",
+                "file": "LLM/langfuse.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Paged-Attention"
+              "title": "langfuse"
             }
           }
         ]
@@ -96,7 +96,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "LLM/Paged-Attention.md",
+                "file": "LLM/langfuse.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "LLM/Paged-Attention.md",
+                "file": "LLM/langfuse.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -158,7 +158,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "LLM/Paged-Attention.md",
+                "file": "LLM/langfuse.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -188,8 +188,12 @@
       "copilot:Open Copilot Agent Chat": false
     }
   },
-  "active": "bd98834498b1d43f",
+  "active": "d67e92748d18cd9d",
   "lastOpenFiles": [
+    "LLM/Vllm-bench.md",
+    "LLM/vLLM.md",
+    "LLM/Paged-Attention.md",
+    "LLM/Paged-Attention",
     "OCR/PaddleOCR.md",
     "Agent/Loop Engineering.md",
     "LLM/langfuse.md",
@@ -199,14 +203,11 @@
     "LLM/Xinference.md",
     "RAG/RAG流程及技术.md",
     "Images/Pasted image 20260904134854.png",
-    "LLM/vLLM.md",
     "LLM/llama factory.md",
     "LLM/LLM.md",
     "LLM/NVCC.md",
     "LLM/Nvida-driver.md",
-    "LLM/Paged-Attention.md",
     "OCR/OCR.md",
-    "LLM/Vllm-bench.md",
     "Images/Pasted image 20260702104840.png",
     "Images/Pasted image 20260902190308.png",
     "Nginx 映射与代理区别.md",
@@ -218,7 +219,6 @@
     "OCR/Marker.md",
     "OCR/Docling & opendataloader-pdf.md",
     "RAG/RAGFlow细节.md",
-    "RAG/RAG落地经验.md",
     "未命名.canvas",
     "copilot/copilot-conversations",
     "copilot/projects/TTT",
@@ -229,7 +229,6 @@
     "copilot/skills/json-canvas/references",
     "copilot/skills/json-canvas",
     "copilot/skills/obsidian-bases/LICENSE",
-    "copilot/skills/obsidian-bases/references",
     "Images/Pasted image 20260828195430.png",
     "Images/Pasted image 20260828195718.png",
     "Images/Pasted image 20260604100955.png",

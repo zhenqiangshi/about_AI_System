@@ -5,7 +5,7 @@ PaddlePaddle 是底层深度学习框架，PaddleOCR 是基于它专门做的 OC
 # 一、PaddleX
 
 
-![[../Images/Pasted image 20260604100955.png]]
+![Pasted image 20260604100955](../Images/Pasted%20image%2020260604100955.png)
 https://paddlepaddle.github.io/PaddleX  
 可以通过指定 `--use_hpip` 以使用高性能推理插件。示例如下：
 paddlex --install hpi-cpu

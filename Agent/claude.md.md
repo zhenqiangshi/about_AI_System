@@ -1,5 +1,5 @@
 
-[[深度解析 Claude Code 在 Prompt  Context  Harness 的设计与实践]]
+[深度解析 Claude Code 在 Prompt  Context  Harness 的设计与实践](深度解析%20Claude%20Code%20在%20Prompt%20%20Context%20%20Harness%20的设计与实践.md)
 **专家级 Harness Engineer** 必须掌握和实践的核心要素。我将其整理成系统化框架，供你参考和落地。
 
 ### **1. 核心理念（Expert Mindset）**
@@ -51,4 +51,4 @@
 
 
 
-![[../Images/Pasted image 20260527091622.png]]
+![Pasted image 20260527091622](../Images/Pasted%20image%2020260527091622.png)
