@@ -1,7 +1,7 @@
 ---
 knowledge Graph:
 ---
-![[Pasted image 20260623104051.png]]
+![[../Images/Pasted image 20260623104051.png]]
 ### 知识图谱主要解决的痛点（相比传统 Vector RAG）
 
 传统 Vector RAG（向量相似度检索）本质上是“语义模糊匹配”，存在以下典型问题：

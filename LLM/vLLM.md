@@ -45,3 +45,6 @@ uv pip install https://github.com/vllm-project/vllm/releases/download/v0.28.0/vl
 ```
 
 > 一定注意cuda、驱动、python wheels等的 一些适配！
+
+
+

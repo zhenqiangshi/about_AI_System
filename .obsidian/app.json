@@ -1,3 +1,7 @@
 {
-  "attachmentFolderPath": "/"
+  "attachmentFolderPath": "Images",
+  "openBehavior": "",
+  "newLinkFormat": "relative",
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": true
 }

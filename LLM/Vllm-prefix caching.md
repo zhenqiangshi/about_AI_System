@@ -126,7 +126,7 @@ class KVCacheBlock:
     2. 无需再引入额外的 Python 队列（如 `deque`）及其元素包装。
 
 因此，KV 缓存管理器初始化后会有以下组件：
-![[Pasted image 20260820201606.png]]
+![[../Images/Pasted image 20260820201606.png]]
 
 ![组件概览](../assets/design/prefix_caching/overview.png)
 
@@ -198,7 +198,7 @@ Time 1:
 
 当请求完成时，若没有其他请求使用其块（引用计数 = 0），则释放所有相关块。在本例中，我们释放 Request 1 及其关联的块 2、3、4、8。可以看到，被释放的块按**逆序**加入空闲队列尾部。这是因为请求的最后一个块哈希了更多 token，被其他请求复用的可能性更低，因此应优先被驱逐。
 
-![[Pasted image 20260820201657.png]]
+![[../Images/Pasted image 20260820201657.png]]
 ![请求释放后的空闲队列](../assets/design/prefix_caching/free.png)
 
 ### 驱逐（LRU）
@@ -214,25 +214,25 @@ Time 1:
 本例假设块大小为 4（每个块可缓存 4 个 token），KV 缓存管理器共有 10 个块。
 
 **Time 1：缓存为空，新请求到来。** 分配 4 个块。其中 3 个已满并被缓存，第 4 个块部分填充（4 个槽位中有 3 个 token）。
-![[Pasted image 20260820201741.png]]
+![[../Images/Pasted image 20260820201741.png]]
 
 **Time 2：Request 0 使块 3 填满，并请求新块以继续解码。** 缓存块 3，并分配块 4
 
-![[Pasted image 20260820201906.png]]
+![[../Images/Pasted image 20260820201906.png]]
 
 **Time 3：Request 1 到来，提示共 14 个 token，前 10 个与 Request 0 相同。** 可以看到只有前 2 个块（8 个 token）命中缓存，因为第 3 个块仅匹配 4 个 token 中的 2 个。
-![[Pasted image 20260820201932.png]]
+![[../Images/Pasted image 20260820201932.png]]
 
 
 
 **Time 4：Request 0 完成并释放。** 块 2、3、4 按逆序加入空闲队列（但块 2 和 3 仍被缓存）。块 0 和 1 因仍被 Request 1 使用而未加入空闲队列。
 
-![[Pasted image 20260820202050.png]]
+![[../Images/Pasted image 20260820202050.png]]
 
 **Time 5：Request 1 完成并释放。
 
-![[Pasted image 20260820202102.png]]
+![[../Images/Pasted image 20260820202102.png]]
 
 **Time 6：Request 2 到来，提示共 29 个 token，前 12 个与 Request 0 相同。** 注意，即使空闲队列顺序原为 `7 - 8 - 9 - 4 - 3 - 2 - 6 - 5 - 1 - 0`，缓存命中块（即 0、1、2）会在分配前被触摸并从队列中移除，因此空闲队列变为 `7 - 8 - 9 - 4 - 3 - 6 - 5`。最终分配的块为 0（缓存）、1（缓存）、2（缓存）、7、8、9、4、3（被驱逐）。
 
-![[Pasted image 20260820202119.png]]
+![[../Images/Pasted image 20260820202119.png]]
