@@ -21,7 +21,7 @@ copilot/
 # .agents/skills/
 # .claude/skills/
 # .opencode/skills/
-
+.obsidian/
 # ======================
 # 系统临时文件
 # ======================
