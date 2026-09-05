@@ -1,0 +1,36 @@
+# ======================
+# Obsidian 相关
+# ======================
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/workspaces.json
+.obsidian/cache/
+.obsidian/plugins/
+!.obsidian/community-plugins.json
+!.obsidian/plugins/community-plugins.json
+
+# ======================
+# AI / Agent / Skills 相关（你截图里的文件夹）
+# ======================
+.agents/
+.claude/
+.copilot/
+.opencode/
+copilot/
+# 如果只想忽略 skills 子目录，可以用下面这几行代替上面整目录忽略：
+# .agents/skills/
+# .claude/skills/
+# .opencode/skills/
+
+# ======================
+# 系统临时文件
+# ======================
+.trash/
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.directory
+*.swp
+*~
+*.log
