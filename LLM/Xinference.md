@@ -52,7 +52,7 @@ https://github.com/xorbitsai/xllamacpp
 xinference launch \
   -n Qwen3-Embedding-4B \
   --model-engine llama.cpp \
-  --n_ctx 20480 \
+  --n_ctx 32768 \
   --n_gpu_layers -1 \
   --model-type embedding \
   --disable-virtual-env \
