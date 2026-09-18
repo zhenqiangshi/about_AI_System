@@ -43,7 +43,6 @@ Xinference 为了在自身框架内更好地管理和调度 vLLM，会使用 xos
 
 
 
-
 ## 安装命令
 
 https://github.com/xorbitsai/xllamacpp

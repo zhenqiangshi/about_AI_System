@@ -145,27 +145,6 @@ about_AI_System/
 
 ---
 
-## 🔧 快速开始
-
-### 前置要求
-- Python 3.8+
-- CUDA 11.8+ (推荐，用于 GPU 推理)
-- 基础的 Linux/Docker 知识
-
-### 安装与部署
-
-```bash
-# 克隆项目
-git clone https://github.com/zhenqiangshi/about_AI_System.git
-cd about_AI_System
-
-# 查看详细的部署指南
-# - 本地模型推理：见 LLM/vLLM.md
-# - RAG 系统搭建：见 RAG/RAG流程及技术.md
-# - Agent 实现：见 Agent/
-```
-
----
 
 ## 💡 核心概念速览
 
@@ -228,4 +207,3 @@ cd about_AI_System
 ---
 
 **⭐ 如果这个项目帮助了你，请给一个 Star 支持！**
-
